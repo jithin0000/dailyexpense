@@ -17,3 +17,59 @@ h1,h2,h3,h4,h5,h6{
 	font-family: 'Lilita One', cursive;
 
 }
+
+#top-sec{
+
+	display:flex;
+	align-items:center;
+	padding: 8px 16px;
+	border-bottom:1px solid lightgrey;
+}
+
+#top-sec .left{
+
+	text-transform: capitalize;
+
+}
+
+#register{
+
+	display:flex;
+	width:100%;
+	height:100vh;
+	flex-direction:column;
+	align-items:center;
+	justify-content:center;
+}
+
+
+.c-form{
+
+	border:none;
+	outline:none;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
