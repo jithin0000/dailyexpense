@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from django.views.generic.edit import CreateView,FormView
 
 
@@ -14,3 +13,9 @@ class RegisterUser(FormView):
     template_name = 'customuser/register.html'
     form_class = RegistrationFrom
     success_url= '/login/'
+
+
+def login_user(request):
+    """ view for login """
+
+    pass
