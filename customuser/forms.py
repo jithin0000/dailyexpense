@@ -6,9 +6,9 @@ from .models import MyUser
 class RegistrationFrom(forms.ModelForm):
     """ form for registrations """
 
-    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class':'form-control'}))
-    email = forms.CharField(label='Email', widget=forms.EmailInput(attrs={'class':'form-control'}))
-    username = forms.CharField(label='Email', widget=forms.TextInput(attrs={'class':'form-control'}))
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class':'c-form'}))
+    email = forms.CharField(label='Email', widget=forms.EmailInput(attrs={'class':'c-form'}))
+    username = forms.CharField(label='Username', widget=forms.TextInput(attrs={'class':'c-form'}))
     class Meta:
         model = MyUser
         fields = ('email', 'username', 'password')

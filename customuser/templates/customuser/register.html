@@ -1,11 +1,13 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-
-<div class="container"  >
-
 	<div id="register" >
+
+		<div class="custom-card"  >
+			
 		<h1 class="header"  >Register Here ... !</h1>
+
+		<hr>
 
 		<form  method="POST" >
 
@@ -13,9 +15,13 @@
 
 			{{ form.as_p }}
 
-			<button type="submit" class="btn btn-success" >register</button>
+			<button type="submit" class="btn btn-success btn-block" >register</button>
 		</form>
+
+			<div class="float-right my-3">
+				<a href="/login" target="_blank">Already have account <span class="important"> Login here </span>  </a>
+			</div>
+		</div>
 	</div>
-</div>
 
 {% endblock %}
