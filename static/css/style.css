@@ -32,9 +32,17 @@ h1,h2,h3,h4,h5,h6{
 }
 
 #top-sec .left{
-
+	display:flex;
+	align-items:center;
+	justify-content: space-around;
 	text-transform: capitalize;
 
+}
+
+.logo{
+
+	margin:0px 8px;
+	border-radius:18px;
 }
 
 #register{
@@ -102,12 +110,29 @@ h1,h2,h3,h4,h5,h6{
 	margin-top:8px;
 }
 
+.options .side-item{
+
+	display:flex;
+	align-items:center;
+	padding: 8px 4px;
+	border-top:0.5px solid lightgrey;
+}
 
 
+i{
+
+	color:grey;
+	margin:0px 4px;
+}
 
 
+.side-link{
 
-
+	text-decoration:none;
+	color:#202020;
+	text-transform:capitalize;
+	font-weight:bold;
+}
 
 
 

@@ -22,3 +22,11 @@ class RegistrationFrom(forms.ModelForm):
             user.save()
 
         return user
+
+
+class LoginForm(forms.Form):
+    """ login form """
+    email = forms.CharField(label='Email', widget=forms.EmailInput(attrs={'class':'c-form'}))
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class':'c-form'}))
+
+

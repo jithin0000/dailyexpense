@@ -1,0 +1,36 @@
+
+{% extends 'base/base.html' %}
+
+{% block  content %}
+
+
+<div id="register" class="name">
+	
+	<div class="custom-card">
+		<h1 class="header" >Login</h1>
+
+		<hr>
+
+		<form  method="POST">
+
+			{% csrf_token %}
+			{{ form.as_p  }}
+
+			<button class="btn btn-primary btn-block" type="submit">login here</button>
+			
+		</form>
+
+		<div class="float-right">
+			<a href="/register/ "   >Need an Accound <span class="important">Register here</span>   </a>
+		</div>
+
+
+
+
+	</div>
+
+</div>
+
+
+{% endblock %}
+
