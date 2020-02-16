@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView,FormView
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 
 # Create your views here.
@@ -53,5 +53,7 @@ def login_user(request):
 
     return render(request, 'customuser/login.html', { 'form' : form })
 
-
-
+def exit_to_app(request):
+    """ log out view """
+    logout(request)
+    return redirect('register')
