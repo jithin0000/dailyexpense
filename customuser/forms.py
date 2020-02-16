@@ -11,7 +11,7 @@ class RegistrationFrom(forms.ModelForm):
     username = forms.CharField(label='Username', widget=forms.TextInput(attrs={'class':'c-form'}))
     class Meta:
         model = MyUser
-        fields = ('email', 'username', 'password')
+        fields = ('email', 'username')
 
 
     def save(self, commit=True):

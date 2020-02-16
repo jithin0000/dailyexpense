@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView,FormView
 
 from django.contrib.auth import authenticate, login
@@ -9,12 +9,23 @@ from .models import MyUser
 from .forms import RegistrationFrom, LoginForm
 
 
+def register_user(request):
+    """ register functional view """
 
-class RegisterUser(FormView):
-    """ view for regitsration """
-    template_name = 'customuser/register.html'
-    form_class = RegistrationFrom
-    success_url= '/login/'
+    form = RegistrationFrom()
+
+    if request.method == 'POST':
+        form = RegistrationFrom(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+        else:
+            form = RegistrationFrom()
+
+
+    return render(request,'customuser/register.html', {'form' : form})
+
 
 
 def login_user(request):
@@ -33,7 +44,7 @@ def login_user(request):
 
             if user is not None:
                 login(request, user)
-                print("login success full ")
+                return redirect('home')
             else:
                 print("invalid login ")
         else:
