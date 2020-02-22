@@ -1,0 +1,30 @@
+
+{% extends 'home/home.html' %}
+
+{% block dash %}
+
+<div class="container mt-5">
+	<div class="row">
+		<div class="col">
+			<h3>Expense</h3>
+			
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<a class="btn btn-primary" href="{% url 'expense_create'  %}">create new expense</a>
+		</div>
+	</div>
+
+	<div class="row mt-3">
+		<ul class="list-group">
+			{% for exp in object_list %}
+			<li class="list-group-item">{{exp.name}}</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>
+
+{% endblock %}
+
