@@ -1,16 +1,22 @@
 from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 from .models import Expense 
 from django.urls import reverse_lazy
 from .forms import ExpenseForm
 
-class ExpenseListView(ListView):
+class ExpenseListView(LoginRequiredMixin,ListView):
     """ list view for expense """
     model = Expense
 
-class ExpenseCreateView(CreateView):
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(user=self.request.user)
+        return queryset
+
+class ExpenseCreateView(LoginRequiredMixin,CreateView):
     """ expense create view """
     form_class=ExpenseForm
     template_name='expense/expense_form.html'
