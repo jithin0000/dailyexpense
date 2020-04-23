@@ -14,7 +14,7 @@ class MyUserManager(BaseUserManager):
 
         user = self.model(
                 
-                email = email, username=username
+                email = self.normalize_email(email), username=username
                 )
 
         user.set_password(password)
