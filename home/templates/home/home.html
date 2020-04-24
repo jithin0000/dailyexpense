@@ -172,56 +172,55 @@
 
 		function createBarChart(expense_month, expense_amount, income_month, income_amount) {
 			var myChart = new Chart(ctx, {
-				
-				type: 'bar',
+
+				type: 'line',
 				data: {
 					labels: expense_month,
 					datasets: [{
-						
+
 						label: 'Expense ',
 						data: expense_amount,
 						backgroundColor: [
-							'rgba(255, 99, 132, 1)',
-							'rgba(255, 99, 132, 1)',
-							'rgba(255, 99, 132, 1)',
-							'rgba(255, 99, 132, 1)',
-							'rgba(255, 99, 132, 1)',
-							'rgba(255, 99, 132, 1)',
-							'rgba(255, 99, 132, 1)',
-							'rgba(255, 99, 132, 1)',
-							'rgba(255, 99, 132, 1)',
-							'rgba(255, 99, 132, 1)',
-							'rgba(255, 99, 132, 1)',
-							'rgba(255, 99, 132, 1)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+
 						],
 						borderColor: [
-							// 'rgba(255, 99, 132, 1)',
-							// 'rgba(54, 162, 235, 1)',
-							// 'rgba(255, 206, 86, 1)',
-							// 'rgba(75, 192, 192, 1)',
-							// 'rgba(153, 102, 255, 1)',
-							// 'rgba(255, 159, 64, 1)'
+							'rgba(10, 250, 10, 1)',
 						],
-						borderWidth: 1
-					},{
+						borderWidth: 2.5
+
+					}, {
 						label: 'Income',
-						type: "bar",
-						data : income_amount,
+						type: "line",
+						data: income_amount,
 						backgroundColor: [
-							'lightgreen',
-							'lightgreen',
-							'lightgreen',
-							'lightgreen',
-							'lightgreen',
-							'lightgreen',
-							'lightgreen',
-							'lightgreen',
-							'lightgreen',
-							'lightgreen',
-							'lightgreen',
-							'lightgreen',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+							'rgba(0, 0, 0, 0.0)',
+
 						],
-						borderWidth: 1
+						borderColor: [
+							'rgba(255, 10, 10, 1)',
+						],
+						borderWidth: 2.5
 					}],
 				},
 				options: {
