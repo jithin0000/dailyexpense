@@ -115,17 +115,12 @@
 
 						<canvas id="myChart" width="1024" height="400"></canvas>
 
-						{% for i in group_by_month %}
 
-						<p>{{i.month | date}}</p>
-						<p>{{i.total}}</p>
-
-						{% endfor %}
 
 					</div>
 				</div>
 
-				
+
 
 				{% endblock %}
 
@@ -142,43 +137,117 @@
 {% block js %}
 
 <script>
-	var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
+
+	$(document).ready(function () {
+
+		var ctx = document.getElementById('myChart').getContext('2d');
+
+
+
+		$.ajax({
+			url: "/home/graph",
+			success: function (data) {
+				var expense_month = []
+				var expense_amount = []
+				for (let i = 0; i < data.expense.length; i++) {
+					const item = data.expense[i];
+					expense_month.push(moment(item.month).format('MMM'))
+					expense_amount.push(item.total)
+				}
+
+				var income_month = []
+				var income_amount = []
+				for (let i = 0; i < data.income.length; i++) {
+					const item = data.income[i];
+					console.log(item)
+					income_month.push(moment(item.month).format('MMM'))
+					income_amount.push(item.total)
+				}
+
+
+				createBarChart(expense_month, expense_amount, income_month, income_amount)
+			},
+			failure: (error) => console.log(error)
+		})
+
+		function createBarChart(expense_month, expense_amount, income_month, income_amount) {
+			var myChart = new Chart(ctx, {
+				
+				type: 'bar',
+				data: {
+					labels: expense_month,
+					datasets: [{
+						
+						label: 'Expense ',
+						data: expense_amount,
+						backgroundColor: [
+							'rgba(255, 99, 132, 1)',
+							'rgba(255, 99, 132, 1)',
+							'rgba(255, 99, 132, 1)',
+							'rgba(255, 99, 132, 1)',
+							'rgba(255, 99, 132, 1)',
+							'rgba(255, 99, 132, 1)',
+							'rgba(255, 99, 132, 1)',
+							'rgba(255, 99, 132, 1)',
+							'rgba(255, 99, 132, 1)',
+							'rgba(255, 99, 132, 1)',
+							'rgba(255, 99, 132, 1)',
+							'rgba(255, 99, 132, 1)',
+						],
+						borderColor: [
+							// 'rgba(255, 99, 132, 1)',
+							// 'rgba(54, 162, 235, 1)',
+							// 'rgba(255, 206, 86, 1)',
+							// 'rgba(75, 192, 192, 1)',
+							// 'rgba(153, 102, 255, 1)',
+							// 'rgba(255, 159, 64, 1)'
+						],
+						borderWidth: 1
+					},{
+						label: 'Income',
+						type: "bar",
+						data : income_amount,
+						backgroundColor: [
+							'lightgreen',
+							'lightgreen',
+							'lightgreen',
+							'lightgreen',
+							'lightgreen',
+							'lightgreen',
+							'lightgreen',
+							'lightgreen',
+							'lightgreen',
+							'lightgreen',
+							'lightgreen',
+							'lightgreen',
+						],
+						borderWidth: 1
+					}],
+				},
+				options: {
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero: true
+							}
+						}]
+					},
+					layout: {
+						padding: {
+							left: 0,
+							right: 0,
+							top: 0,
+							bottom: 0
+						}
+					}
+				}
+			});
+		}
+
+	});
+
+
+
 </script>
 
 {% endblock %}

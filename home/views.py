@@ -14,12 +14,26 @@ from django.db.models import Q
 from django.http import JsonResponse
 
 def home_graph(request):
-        amount_grouped_by_month_year = (
+        expense_by_month = (
             Expense.objects.filter().annotate(month=TruncMonth('created_on'))
             .values('month')
             .annotate(total=Sum('amount'))
             .order_by('month')
-    )
+                )
+
+        income_by_month = (
+            Income.objects.filter().annotate(month=TruncMonth('created_on'))
+            .values('month')
+            .annotate(total=Sum('amount'))
+            .order_by('month')
+                )
+
+        expense = [item for item in expense_by_month]  
+        income = [item for item in income_by_month]  
+
+        return JsonResponse(data={
+                "expense" : expense, "income" : income
+        },safe=False)
 
 @login_required(login_url='/login')
 def home(request):
@@ -63,7 +77,6 @@ def home(request):
             'week_income' : past_7_day_income['amount__sum'],
             'month_expense' : this_month_expense['amount__sum'],
             'month_income' : this_month_income['amount__sum'],
-            'group_by_month' : amount_grouped_by_month_year
             }
 
     return render(request, 'home/home.html', context_object )
