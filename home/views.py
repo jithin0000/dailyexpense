@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 from django.db.models import Sum
+from django.db.models.functions import TruncMonth
 from datetime import date
 import datetime
 # Create your views here.
@@ -10,6 +11,15 @@ from income.models import Income
 from expense.models import Expense
 
 from django.db.models import Q
+from django.http import JsonResponse
+
+def home_graph(request):
+        amount_grouped_by_month_year = (
+            Expense.objects.filter().annotate(month=TruncMonth('created_on'))
+            .values('month')
+            .annotate(total=Sum('amount'))
+            .order_by('month')
+    )
 
 @login_required(login_url='/login')
 def home(request):
@@ -19,35 +29,27 @@ def home(request):
     expense_sum = Expense.objects.filter(user = request.user).aggregate(Sum('amount'))
     
     today = date.today()
-    todays_expense = Expense.objects.filter(user = request.user).filter( Q(created_on__year = today.year) & Q(created_on__month = today.month) & Q(created_on__day = today.day)).aggregate(Sum('amount'))
+    todays_expense = todayExpenseFilter(request,today)
 
-    todays_income = Income.objects.filter( user = request.user ).filter(
-            Q(created_on__year = today.year) & Q(created_on__month = today.month) & Q(created_on__day = today.day)
-            ).aggregate(Sum('amount'))
+    todays_income = todayIncomeFilter(request, today)
 
 
     yesterday = date.today() - datetime.timedelta(days=1)
 
 
-    yesterdays_expense = Expense.objects.filter(user = request.user ).filter(
-            Q(created_on__year = yesterday.year) & Q(created_on__month = yesterday.month) & Q(created_on__day = yesterday.day)
-            ).aggregate(Sum('amount'))
+    yesterdays_expense = yesterdayExpenseFilter(request, yesterday)
 
 
-    yesterdays_income = Income.objects.filter(user = request.user ).filter(
-            Q(created_on__year = yesterday.year) & Q(created_on__month = yesterday.month) & Q(created_on__day = yesterday.day)
-            ).aggregate(Sum('amount'))
+    yesterdays_income = yesterdayIncomeFilter(request, yesterday)
 
     last_7_days = date.today() - datetime.timedelta(days=7)
-    past_7_day_expense = Expense.objects.filter( user = request.user ).filter(created_on__gte= last_7_days).aggregate(Sum('amount'))
-    past_7_day_income = Income.objects.filter( user = request.user ).filter(created_on__gte= last_7_days).aggregate(Sum('amount'))
+    past_7_day_expense = weekExpenseFilter(request, last_7_days)
+    past_7_day_income = weekIncomeFilter(request, last_7_days)
 
-    this_month_expense = Expense.objects.filter(user =request.user).filter(
-            Q(created_on__year = today.year) & Q(created_on__month = today.month)
-            ).aggregate(Sum('amount'))
-    this_month_income = Income.objects.filter(user =request.user).filter(
-            Q(created_on__year = today.year) & Q(created_on__month = today.month)
-            ).aggregate(Sum('amount'))
+    this_month_expense = expenseMonthFilter(request, today)
+    this_month_income = incom_month_filter(request, today)
+
+   
 
 
     context_object = {
@@ -58,9 +60,38 @@ def home(request):
             'yesterdays_expense' : yesterdays_expense['amount__sum'],
             'yesterdays_income' : yesterdays_income['amount__sum'],
             'week_expense' : past_7_day_expense['amount__sum'],
-            'week_expense' : past_7_day_expense['amount__sum'],
+            'week_income' : past_7_day_income['amount__sum'],
             'month_expense' : this_month_expense['amount__sum'],
             'month_income' : this_month_income['amount__sum'],
+            'group_by_month' : amount_grouped_by_month_year
             }
 
     return render(request, 'home/home.html', context_object )
+
+
+def todayExpenseFilter(request, today):
+        return Expense.objects.filter(user = request.user).filter( Q(created_on__year = today.year) & Q(created_on__month = today.month) & Q(created_on__day = today.day)).aggregate(Sum('amount'))
+
+
+def todayIncomeFilter(request, today):
+        return Income.objects.filter(user = request.user).filter( Q(created_on__year = today.year) & Q(created_on__month = today.month) & Q(created_on__day = today.day)).aggregate(Sum('amount'))
+
+
+def yesterdayExpenseFilter(request, yesterday):
+        return Expense.objects.filter(user = request.user ).filter(
+            Q(created_on__year = yesterday.year) & Q(created_on__month = yesterday.month) & Q(created_on__day = yesterday.day)
+            ).aggregate(Sum('amount'))
+def yesterdayIncomeFilter(request, yesterday):
+        return Income.objects.filter(user = request.user ).filter( Q(created_on__year = yesterday.year) & Q(created_on__month = yesterday.month) & Q(created_on__day = yesterday.day) ).aggregate(Sum('amount'))
+
+def weekExpenseFilter(request, last_7_days):
+        return Expense.objects.filter( user = request.user ).filter(created_on__gte= last_7_days).aggregate(Sum('amount'))
+
+def weekIncomeFilter(request, last_7_days):
+        return Income.objects.filter( user = request.user ).filter(created_on__gte= last_7_days).aggregate(Sum('amount'))
+
+def expenseMonthFilter(request, today):
+        return Expense.objects.filter(user =request.user).filter( Q(created_on__year = today.year) & Q(created_on__month = today.month) ).aggregate(Sum('amount'))
+
+def incom_month_filter(request, today):
+        return Income.objects.filter(user =request.user).filter( Q(created_on__year = today.year) & Q(created_on__month = today.month) ).aggregate(Sum('amount'))

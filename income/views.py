@@ -21,9 +21,8 @@ class IncomeListView(LoginRequiredMixin,ListView):
 
 class IncomCreateView(LoginRequiredMixin, CreateView):
     """ create view for income """
-    model = Income
-    from_class = IncomeForm()
-    fields = ['name', 'amount']
+    form_class = IncomeForm
+    template_name="income/income_form.html"
     success_url=reverse_lazy('income_list')
 
     def form_valid(self, form,*args, **kwargs):

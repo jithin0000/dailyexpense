@@ -18,6 +18,13 @@ h1,h2,h3,h4,h5,h6{
 
 }
 
+.price_lg{
+	font-size: 1.2em;
+	font-family: 'Lilita One', cursive;
+	color: red;
+	
+}
+
 .important{
 	font-weight:bold;
 	color:blue;
