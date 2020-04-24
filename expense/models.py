@@ -9,7 +9,7 @@ class Expense(models.Model):
     name = models.CharField(max_length=255)
     amount = models.IntegerField(default=0)
 
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField()
 
     def __str__(self):
         return self.name
