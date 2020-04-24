@@ -10,7 +10,7 @@ class Income(models.Model):
     name = models.CharField(max_length=255)
     amount = models.IntegerField(default=0)
 
-    on_date = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
